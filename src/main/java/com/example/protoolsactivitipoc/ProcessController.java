@@ -34,7 +34,7 @@ public class ProcessController {
 
     @GetMapping(value = "/start-process/{processKey}")
     public String startProcess(@PathVariable String processKey){
-        logger.info("> GET request to start the process: categorizeProcess");
+        logger.info("> GET request to start the process: "+ processKey);
         String content = Utils.pickRandomString();
 
         Map<String,Object> variables = new HashMap<String, Object>();
