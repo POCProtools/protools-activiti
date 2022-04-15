@@ -35,16 +35,8 @@ public class ProcessController {
     @GetMapping(value = "/start-process/{processKey}")
     public String startProcess(@PathVariable String processKey){
         logger.info("> GET request to start the process: "+ processKey);
-        String content = Utils.pickRandomString();
 
-        Map<String,Object> variables = new HashMap<String, Object>();
-        variables.put("content",content);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-
-        logger.info("> Processing content: " + content + " at " + formatter.format(new Date()));
-
-        runtimeService.startProcessInstanceByKey(processKey, variables);
+        runtimeService.startProcessInstanceByKey(processKey);
 
         return(">>> Created Process Instance: "+ processKey);
     }
