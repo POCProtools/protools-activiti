@@ -21,6 +21,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -32,12 +40,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-spring-boot-starter -->
 		<dependency>
 			<groupId>org.activiti</groupId>
-			<artifactId>activiti-engine</artifactId>
+			<artifactId>activiti-spring-boot-starter</artifactId>
 			<version>7.1.0.M6</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>7.0.4.Final</version>
+		</dependency>
+
+
 
 		<!-- https://mvnrepository.com/artifact/org.activiti.api/activiti-api-process-runtime -->
 		<dependency>
@@ -52,18 +73,14 @@
 			<version>5.6.2</version>
 		</dependency>
 
-
-
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<version>2.1.212</version>
+			<scope>runtime</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 	</dependencies>
 

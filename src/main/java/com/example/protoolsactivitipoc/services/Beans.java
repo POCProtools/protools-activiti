@@ -1,16 +1,17 @@
 package com.example.protoolsactivitipoc.services;
 
-import com.example.protoolsactivitipoc.ProcessRun;
 import org.activiti.api.process.runtime.connector.Connector;
 import org.activiti.api.process.runtime.events.ProcessCompletedEvent;
 import org.activiti.api.process.runtime.events.listener.ProcessRuntimeEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 
+@Component
 public class Beans {
 
     private Logger logger = LoggerFactory.getLogger(Beans.class);
