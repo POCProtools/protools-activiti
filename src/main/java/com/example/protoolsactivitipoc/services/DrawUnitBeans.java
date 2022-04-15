@@ -42,7 +42,7 @@ public class DrawUnitBeans {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            logger.info("Drawn unit : "+ response.body());
+            logger.info("\t \t Drawn unit : "+ response.body());
             integrationContext.addOutBoundVariable("unit",response.body());
             return integrationContext;
         };

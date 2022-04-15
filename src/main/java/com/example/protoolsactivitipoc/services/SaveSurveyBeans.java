@@ -48,7 +48,6 @@ public class SaveSurveyBeans {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            logger.info(requestBody);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://coleman.dev.insee.io/surveys/"))
@@ -64,8 +63,6 @@ public class SaveSurveyBeans {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            logger.info(response.body());
 
             JSONObject jsonResponse = new JSONObject(response.body());
             int idInt = jsonResponse.getInt("id");

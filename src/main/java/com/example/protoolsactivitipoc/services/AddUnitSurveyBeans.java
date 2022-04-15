@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.activiti.api.process.runtime.connector.Connector;
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,26 +19,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class CreateAccountBeans {
-    private Logger logger = LoggerFactory.getLogger(CreateAccountBeans.class);
-
+public class AddUnitSurveyBeans {
+    private Logger logger = LoggerFactory.getLogger(AddUnitSurveyBeans.class);
     @Bean
-    public Connector createAccount(){
+    public Connector addToSurvey(){
         return integrationContext -> {
             HttpClient client = HttpClient.newHttpClient();
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
-            // Contenu à analyser
             String unit = (String) inBoundVariables.get("unit");
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
-            int count = (int) inBoundVariables.get("count");
 
             Gson gson = new Gson();
             Person person = gson.fromJson(unit,Person.class);
 
-            logger.info("\t \t Create account : " + person.toString());
+            logger.info(" \t \t Add unit to survey : " + person.toString());
             int statusCode = 0;
-
+            var id = person.getId();
             var values = new HashMap<String, Object>() {{
                 put("email", person.getEmail());
                 put("nom", person.getNom());
@@ -56,9 +52,8 @@ public class CreateAccountBeans {
                 e.printStackTrace();
             }
             requestBody = "[" + requestBody + "]";
-            logger.info("\t \t Create account for unit: " + requestBody);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://annuaire.dev.insee.io/comptes/"+surveyID))
+                    .uri(URI.create("https://coleman.dev.insee.io/surveys/"+ surveyID+"/units"))
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
@@ -71,10 +66,7 @@ public class CreateAccountBeans {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            logger.info("\t \t Response Code: " + String.valueOf(response.statusCode()));
-            integrationContext.addOutBoundVariable("count", count+1);
-
+            logger.info("\t \t https://coleman.dev.insee.io/persons/"+ id);
             return integrationContext;
         };
     }
