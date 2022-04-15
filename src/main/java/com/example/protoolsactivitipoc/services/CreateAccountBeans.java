@@ -71,7 +71,7 @@ public class CreateAccountBeans {
                 e.printStackTrace();
             }
 
-            logger.info(String.valueOf(response.statusCode()));
+            logger.info("Response Code: " + String.valueOf(response.statusCode()));
             statusCode = response.statusCode();
 
             return integrationContext;
