@@ -25,16 +25,19 @@ public class AddUnitSurveyBeans {
     @Bean
     public Connector addToSurvey(){
         return integrationContext -> {
+            logger.info("\t >> Add unit to survey");
             HttpClient client = HttpClient.newHttpClient();
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             String unit = (String) inBoundVariables.get("unit");
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
 
-            Gson gson = new Gson();
-            Person person = gson.fromJson(unit,Person.class);
 
-            logger.info(" \t \t Add unit to survey : " + person.toString());
+            Gson gson = new Gson();
+            Person[] map = gson.fromJson(unit,Person[].class);
+            Person person = map[0];
+            logger.info(" \t \t >>> Add unit to survey : " + person.toString());
+
             int statusCode = 0;
             var id = person.getId();
             var values = new HashMap<String, Object>() {{

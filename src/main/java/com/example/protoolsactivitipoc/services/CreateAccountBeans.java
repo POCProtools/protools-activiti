@@ -27,18 +27,20 @@ public class CreateAccountBeans {
     @Bean
     public Connector createAccount(){
         return integrationContext -> {
+            logger.info("\t >> Create account for unit");
             HttpClient client = HttpClient.newHttpClient();
+
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             // Contenu à analyser
             String unit = (String) inBoundVariables.get("unit");
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
             int count = (int) inBoundVariables.get("count");
+            logger.info("\t \t >>> Create Account for unit: " + unit + "for survey: "+ surveyID);
 
             Gson gson = new Gson();
-            Person person = gson.fromJson(unit,Person.class);
-
-            logger.info("\t \t Create account : " + person.toString());
+            Person[] map = gson.fromJson(unit,Person[].class);
+            Person person = map[0];
             int statusCode = 0;
 
             var values = new HashMap<String, Object>() {{

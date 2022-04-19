@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Component
 public class DrawUnitBeans {
-    private Logger logger = LoggerFactory.getLogger(SaveSurveyBeans.class);
+    private Logger logger = LoggerFactory.getLogger(DrawUnitBeans.class);
 
     @Bean
     public Connector drawUnit(){
