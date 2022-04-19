@@ -27,6 +27,7 @@ public class SaveSurveyBeans {
     @Bean
     public Connector saveSurvey(){
         return integrationContext -> {
+            logger.info("\t >> Service task Save Survey into Coleman");
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             // Contenu à analyser
@@ -65,6 +66,7 @@ public class SaveSurveyBeans {
             }
 
             JSONObject jsonResponse = new JSONObject(response.body());
+            logger.info("\t \t >>> Coleman response : " +jsonResponse);
             int idInt = jsonResponse.getInt("id");
             String idSurvey = String.valueOf(idInt);
             integrationContext.addOutBoundVariable("idSurvey",idSurvey);

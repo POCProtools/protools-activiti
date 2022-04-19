@@ -1,29 +1,29 @@
 package com.example.protoolsactivitipoc;
 
-import com.example.protoolsactivitipoc.services.TaskRepresentation;
+import com.example.protoolsactivitipoc.beans.Survey;
+import com.example.protoolsactivitipoc.util.SecurityUtil;
 import com.example.protoolsactivitipoc.util.Utils;
-import org.activiti.api.process.model.builders.ProcessPayloadBuilder;
-import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.api.runtime.shared.query.Page;
+import org.activiti.api.runtime.shared.query.Pageable;
+import org.activiti.api.task.model.builders.TaskPayloadBuilder;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 public class ProcessController {
@@ -33,6 +33,12 @@ public class ProcessController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private TaskRuntime taskRuntime;
+
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @GetMapping(value = "/start-categorize-process/")
     public String startProcess(){
@@ -52,7 +58,7 @@ public class ProcessController {
     }
 
 
-    @GetMapping(value = "/start-process/{processKey}")
+    @GetMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
         logger.info("> GET request to start the process: "+ processKey);
 
@@ -65,13 +71,15 @@ public class ProcessController {
     }
 
     @GetMapping("/get-tasks")
-    public void getTasks(){
+    public String getTasks() {
         List<ProcessInstance> data = runtimeService.createProcessInstanceQuery().active().list();
-        for(ProcessInstance processInstance : data) {
-            ExecutionEntity entity = (ExecutionEntity)processInstance;
-            List<Task> usertasks = taskService.createTaskQuery().processInstanceId(entity.getId()).list();
-            logger.info("Current task with ID : "+ usertasks.toString());
+        List<Task> usertasks = null;
+        for (ProcessInstance processInstance : data) {
+            ExecutionEntity entity = (ExecutionEntity) processInstance;
+            usertasks = taskService.createTaskQuery().processInstanceId(entity.getId()).list();
+            logger.info("Current task with ID : " + usertasks.toString());
         }
+        return ("Last task with ID : " + usertasks.toString());
 
 
     }
@@ -83,7 +91,31 @@ public class ProcessController {
                 .processInstanceId(processID)
                 .singleResult();
         taskService.complete(task.getId());
-        return(">>> Task : "+ processID+" completed!");
+        return(">>> Task : "+ processID +" completed!");
+    }
+
+    @GetMapping(value = "/startProcess/createSurvey/{processKey}", consumes = "application/json")
+    public String createSurveyPost(@PathVariable String processKey, @RequestBody Survey newSurvey) {
+        securityUtil.logInAs("system");
+        logger.info("\t >>> StartProcess createSurvey <<<");
+        var values = new HashMap<String, Object>() ;
+        try {
+            logger.info(">> Survey: " + newSurvey.toString());
+            values.put("name", newSurvey.getName());
+            values.put("dateDeb", newSurvey.getDateDeb());
+            values.put("dateEnd", newSurvey.getDateEnd());
+            values.put("sampleSize", newSurvey.getSampleSize());
+
+            logger.info("\t \t >>> Finished saving survey info into values");
+        } catch (Error e) {
+            logger.info("Error : " + e.getMessage());
+        }
+        runtimeService.startProcessInstanceByKey(processKey, values);
+        List<ProcessInstance> liste = runtimeService.createProcessInstanceQuery()
+                .processDefinitionKey(processKey)
+                .list();
+
+        return (">>> Created Process Instance: " + processKey + " -- info: " + liste.toString());
     }
 
 }

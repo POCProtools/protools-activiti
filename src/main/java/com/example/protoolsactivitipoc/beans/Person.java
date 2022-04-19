@@ -1,14 +1,16 @@
-package com.example.protoolsactivitipoc.services;
+package com.example.protoolsactivitipoc.beans;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class Person {
     private Long id;
     private String nom;
     private String prenom;
     private String email;
     private String telephone;
-    private Long id_survey;
+    private Long idSurvey;
     public Person() {
 
     }
@@ -40,11 +42,11 @@ public class Person {
     }
 
     public Long getIdSurvey() {
-        return id_survey;
+        return idSurvey;
     }
 
-    public void setIdSurvey(Long idSurvey) {
-        this.id_survey = idSurvey;
+    public void setIdSurvey(Long id_survey) {
+        this.idSurvey = id_survey;
     }
 
     public String getEmail() {
@@ -84,5 +86,9 @@ public class Person {
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
