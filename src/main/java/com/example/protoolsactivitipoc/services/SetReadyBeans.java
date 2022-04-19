@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -24,21 +27,20 @@ public class SetReadyBeans {
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
-            String url = "https://coleman.dev.insee.io/survey/"+ String.valueOf(surveyID)+ "/ready";
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .build();
-            HttpResponse<String> response = null;
+            URL url = null;
             try {
-                response = client.send(request,
-                        HttpResponse.BodyHandlers.ofString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+                url = new URL("https://coleman.dev.insee.io/survey/"+ String.valueOf(surveyID)+ "/ready");
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
-            logger.info("\t \t >>> Survey set state to ready : " + response.body());
+            try {
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("POST");
+                con.getInputStream();
+                logger.info("\t >> Survey set state to ready : " + con.getResponseCode());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return integrationContext;
         };
     }

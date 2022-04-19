@@ -59,7 +59,6 @@ public class CreateAccountBeans {
                 e.printStackTrace();
             }
             requestBody = "[" + requestBody + "]";
-            logger.info("\t \t Create account for unit: " + requestBody);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://annuaire.dev.insee.io/comptes/"+surveyID))
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")

@@ -31,7 +31,6 @@ public class SaveSurveyBeans {
             // Recup variables
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             // Contenu à analyser
-            logger.info(inBoundVariables.toString());
             String surveyName = (String) inBoundVariables.get("name");
             String dateDeb = (String) inBoundVariables.get("dateDeb");
             String dateEnd = (String) inBoundVariables.get("dateEnd");
