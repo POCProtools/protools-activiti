@@ -11,7 +11,9 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
+import org.activiti.api.task.model.Task;
+import org.activiti.api.task.model.builders.TaskPayloadBuilder;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,27 +73,20 @@ public class ProcessController {
     }
 
     @GetMapping("/get-tasks")
-    public String getTasks() {
-        List<ProcessInstance> data = runtimeService.createProcessInstanceQuery().active().list();
-        List<Task> usertasks = null;
-        for (ProcessInstance processInstance : data) {
-            ExecutionEntity entity = (ExecutionEntity) processInstance;
-            usertasks = taskService.createTaskQuery().processInstanceId(entity.getId()).list();
-            logger.info("Current task with ID : " + usertasks.toString());
+    public void getTasks() {
+        securityUtil.logInAs("system");
+        logger.info("\t >>> Get tasks <<<");
+        Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 10));
+        logger.info(tasks.toString());
+        if (tasks.getTotalItems() > 0) {
+            for (Task t : tasks.getContent()) {
+                logger.info("> Claiming task: " + t.getId());
+                taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(t.getId()).build());
+            }
+        } else {
+            logger.info("\t \t >> There are no task for me to work on.");
         }
-        return ("Last task with ID : " + usertasks.toString());
 
-
-    }
-
-    @GetMapping("/complete-task/{processID}")
-    public String completeTask(@PathVariable String processID){
-
-        Task task = taskService.createTaskQuery()
-                .processInstanceId(processID)
-                .singleResult();
-        taskService.complete(task.getId());
-        return(">>> Task : "+ processID +" completed!");
     }
 
     @GetMapping(value = "/startProcess/createSurvey/{processKey}", consumes = "application/json")

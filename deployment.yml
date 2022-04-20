@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: protools-activiti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: protools-activiti
+  template:
+    metadata:
+      labels:
+        app: protools-activiti
+    spec:
+      containers:
+        - name: protools-activiti
+          image: mailinenguyen/protools-activiti
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: protools-activiti-postgresql
+                  key: postgres-password
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://protools-activiti-postgresql/
