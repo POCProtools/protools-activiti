@@ -32,15 +32,16 @@ public class AddUnitSurveyBeans {
             String unit = (String) inBoundVariables.get("unit");
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
 
-
             Gson gson = new Gson();
             Person[] map = gson.fromJson(unit,Person[].class);
+
             Person person = map[0];
             logger.info(" \t \t >>> Add unit to survey : " + person.toString());
 
             int statusCode = 0;
             var id = person.getId();
             var values = new HashMap<String, Object>() {{
+                put("id", id);
                 put("email", person.getEmail());
                 put("nom", person.getNom());
                 put("prenom", person.getPrenom());

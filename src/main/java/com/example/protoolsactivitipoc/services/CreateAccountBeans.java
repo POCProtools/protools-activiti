@@ -36,7 +36,7 @@ public class CreateAccountBeans {
             String unit = (String) inBoundVariables.get("unit");
             String surveyID = (String) inBoundVariables.get("idSurvey") ;
             int count = (int) inBoundVariables.get("count");
-            logger.info("\t \t >>> Create Account for unit: " + unit + "for survey: "+ surveyID);
+            logger.info("\t \t >>> Create Account for unit: " + unit + " for survey: "+ surveyID);
 
             Gson gson = new Gson();
             Person[] map = gson.fromJson(unit,Person[].class);
