@@ -59,7 +59,6 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ "categorizeProcess");
     }
 
-
     @GetMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
         logger.info("> GET request to start the process: "+ processKey);
@@ -87,6 +86,13 @@ public class ProcessController {
             logger.info("\t \t >> There are no task for me to work on.");
         }
 
+    }
+
+    @GetMapping("/complete-task-A/{taskID}")
+    public void completeTaskA(@PathVariable String taskID, @RequestBody HashMap<String,Object> variables) {
+        securityUtil.logInAs("system");
+        logger.info("> Claiming task: " + taskID);
+        taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).withVariables(variables).build());
     }
 
     @GetMapping(value = "/startProcess/createSurvey/{processKey}", consumes = "application/json")
