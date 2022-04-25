@@ -3,22 +3,15 @@ package com.example.protoolsactivitipoc;
 import com.example.protoolsactivitipoc.beans.Survey;
 import com.example.protoolsactivitipoc.util.SecurityUtil;
 import com.example.protoolsactivitipoc.util.Utils;
-import org.activiti.api.runtime.shared.query.Page;
-import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.api.task.model.Task;
-import org.activiti.api.task.model.builders.TaskPayloadBuilder;
-import org.activiti.api.task.runtime.TaskRuntime;
+import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -71,14 +64,14 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ processKey+ " -- info: " + liste.toString());
     }
 
-    @GetMapping("/get-tasks")
-    public void getTasks() {
+    @GetMapping("/get-tasks/{processID}")
+    public void getTasks(@PathVariable String processID) {
         securityUtil.logInAs("system");
-        logger.info("\t >>> Get tasks <<<");
-        Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 10));
-        logger.info(tasks.toString());
-        if (tasks.getTotalItems() > 0) {
-            for (Task t : tasks.getContent()) {
+        logger.info(">>> Get tasks <<<");
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processID).active().list();
+
+        if (taskInstances.size() > 0) {
+            for (Task t : taskInstances) {
                 logger.info("> Claiming task: " + t.getId());
                 taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(t.getId()).build());
             }
@@ -88,10 +81,10 @@ public class ProcessController {
 
     }
 
-    @GetMapping("/complete-task-A/{taskID}")
+    @GetMapping("/complete-task/{taskID}")
     public void completeTaskA(@PathVariable String taskID, @RequestBody HashMap<String,Object> variables) {
         securityUtil.logInAs("system");
-        logger.info("> Claiming task: " + taskID);
+        logger.info("> Completing task: " + taskID);
         taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).withVariables(variables).build());
     }
 
