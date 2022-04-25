@@ -60,8 +60,11 @@ public class ProcessController {
         List<ProcessInstance> liste = runtimeService.createProcessInstanceQuery()
                 .processDefinitionKey(processKey)
                 .list();
+        for (ProcessInstance l : liste){
+            logger.info("Process Instance ID : " + l.getId());
+        }
 
-        return(">>> Created Process Instance: "+ processKey+ " -- info: " + liste.toString());
+        return(">>> Created Process Instance: "+ processKey);
     }
 
     @GetMapping("/get-tasks/{processID}")
