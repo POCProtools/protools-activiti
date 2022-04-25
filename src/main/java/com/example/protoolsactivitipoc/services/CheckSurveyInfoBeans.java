@@ -4,11 +4,14 @@ import org.activiti.api.process.runtime.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public class CheckSurveyInfoBeans {
     private Logger logger = LoggerFactory.getLogger(CheckSurveyInfoBeans.class);
+
     @Bean
     public Connector checkSampleSize(){
         return integrationContext -> {
