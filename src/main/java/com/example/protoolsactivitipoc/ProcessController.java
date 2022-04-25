@@ -69,7 +69,7 @@ public class ProcessController {
         securityUtil.logInAs("system");
         logger.info(">>> Get tasks <<<");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processID).active().list();
-
+        logger.info(taskInstances.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
                 logger.info("> Claiming task: " + t.getId());
