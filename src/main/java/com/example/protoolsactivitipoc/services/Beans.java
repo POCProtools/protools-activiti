@@ -63,9 +63,7 @@ public class Beans {
 
     @Bean
     public ProcessRuntimeEventListener<ProcessCompletedEvent> processCompletedListener() {
-        return processCompleted -> logger.info(">>> Process Completed: '"
-                + processCompleted.getEntity().getName() +
-                "' We can send a notification to the initiator: " + processCompleted.getEntity().getInitiator());
+        return processCompleted -> logger.info(">>> Process Completed:  We can send a notification to the initiator: " + processCompleted.getEntity().getInitiator());
     }
 
 }

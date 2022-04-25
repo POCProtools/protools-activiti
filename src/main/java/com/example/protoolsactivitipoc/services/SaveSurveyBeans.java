@@ -69,6 +69,7 @@ public class SaveSurveyBeans {
 
             JSONObject jsonResponse = new JSONObject(response.body());
             logger.info("\t \t >>> Coleman response : " +jsonResponse);
+            logger.info("\t >> Waiting for next step ");
             int idInt = jsonResponse.getInt("id");
             String idSurvey = String.valueOf(idInt);
             integrationContext.addOutBoundVariable("idSurvey",idSurvey);
