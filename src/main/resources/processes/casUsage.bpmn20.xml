@@ -73,7 +73,7 @@
     <boundaryEvent xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-6668d2fb-9bc2-4e1a-9962-a9d83a47ed7b" attachedToRef="Activity_0vuyzi4" name="ErrorSampleSizeBoundary">
       <errorEventDefinition/>
     </boundaryEvent>
-    <serviceTask xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7" xmlns:activiti="http://activiti.org/bpmn" activiti:exclusive="true" name="Error sampleSize Too small"/>
+    <serviceTask xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7" xmlns:activiti="http://activiti.org/bpmn" activiti:exclusive="true" name="Error sampleSize Too small" implementation="ErrorSampleSize"/>
     <endEvent xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-bb954dc2-69e2-4c14-9666-bb03d05149d2" name="EndErrorEvent"/>
     <sequenceFlow xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-7342cdc8-e252-470e-9667-0ee125905660" sourceRef="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7" targetRef="sid-bb954dc2-69e2-4c14-9666-bb03d05149d2"/>
     <sequenceFlow xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-f6087233-2ab9-4930-9ce2-34b3d9dd5292" sourceRef="sid-6668d2fb-9bc2-4e1a-9962-a9d83a47ed7b" targetRef="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7"/>
