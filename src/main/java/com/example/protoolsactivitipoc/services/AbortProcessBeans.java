@@ -17,7 +17,7 @@ public class AbortProcessBeans {
             logger.info("\t >> Aborting Process ... <<  ");
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
             // Contenu à analyser
-            String surveyName = (String) inBoundVariables.get("surveyName");
+            String surveyName = (String) inBoundVariables.get("name");
             logger.info("\t \t >> Failed to create survey " + surveyName);
             return integrationContext;
         };
