@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Map;
 
-public class CheckSurveyInfo {
-    private Logger logger = LoggerFactory.getLogger(CheckSurveyInfo.class);
+public class CheckSurveyInfoBeans {
+    private Logger logger = LoggerFactory.getLogger(CheckSurveyInfoBeans.class);
     @Bean
-    public Connector sampleSizeSmall(){
+    public Connector checkSampleSize(){
         return integrationContext -> {
             logger.info("\t >> Checking sample Size  ");
             Map<String, Object> inBoundVariables = integrationContext.getInBoundVariables();
