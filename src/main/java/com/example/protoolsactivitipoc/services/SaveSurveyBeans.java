@@ -37,48 +37,44 @@ public class SaveSurveyBeans {
             String dateEnd = (String) inBoundVariables.get("dateEnd");
             String sampleSize = (String) inBoundVariables.get("sampleSize");
 
-            int sampleSizeInt = Integer.parseInt(sampleSize);
-            if (sampleSizeInt<5){
-                throw new BpmnError("ErrorSampleSizeBoundary");
-            } else {
-                var values = new HashMap<String, String>() {{
-                    put("name", surveyName);
-                    put ("dateDeb", dateDeb);
-                    put("dateEnd", dateEnd);
-                }};
+            var values = new HashMap<String, String>() {{
+                put("name", surveyName);
+                put ("dateDeb", dateDeb);
+                put("dateEnd", dateEnd);
+            }};
 
-                var objectMapper = new ObjectMapper();
-                String requestBody = null;
-                try {
-                    requestBody = objectMapper
-                            .writeValueAsString(values);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://coleman.dev.insee.io/surveys/"))
-                        .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                        .build();
-                HttpResponse<String> response = null;
-                try {
-                    response = client.send(request,
-                            HttpResponse.BodyHandlers.ofString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                JSONObject jsonResponse = new JSONObject(response.body());
-                logger.info("\t \t >>> Coleman response : " +jsonResponse);
-                int idInt = jsonResponse.getInt("id");
-                String idSurvey = String.valueOf(idInt);
-                integrationContext.addOutBoundVariable("idSurvey",idSurvey);
-                integrationContext.addOutBoundVariable("count",0);
-
+            var objectMapper = new ObjectMapper();
+            String requestBody = null;
+            try {
+                requestBody = objectMapper
+                        .writeValueAsString(values);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             }
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://coleman.dev.insee.io/surveys/"))
+                    .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            JSONObject jsonResponse = new JSONObject(response.body());
+            logger.info("\t \t >>> Coleman response : " +jsonResponse);
+            int idInt = jsonResponse.getInt("id");
+            String idSurvey = String.valueOf(idInt);
+            integrationContext.addOutBoundVariable("idSurvey",idSurvey);
+            integrationContext.addOutBoundVariable("count",0);
+
+
 
 
             return integrationContext;
