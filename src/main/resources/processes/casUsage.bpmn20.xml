@@ -70,13 +70,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${count != sampleSize}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_13828zo" sourceRef="Activity_12yxcqh" targetRef="Event_1pfixvm"/>
-    <boundaryEvent xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-6668d2fb-9bc2-4e1a-9962-a9d83a47ed7b" attachedToRef="Activity_0vuyzi4" name="ErrorSampleSizeBoundary">
-      <errorEventDefinition/>
-    </boundaryEvent>
-    <serviceTask xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7" xmlns:activiti="http://activiti.org/bpmn" activiti:exclusive="true" name="Error sampleSize Too small" implementation="ErrorSampleSize"/>
-    <endEvent xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-bb954dc2-69e2-4c14-9666-bb03d05149d2" name="EndErrorEvent"/>
-    <sequenceFlow xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-7342cdc8-e252-470e-9667-0ee125905660" sourceRef="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7" targetRef="sid-bb954dc2-69e2-4c14-9666-bb03d05149d2"/>
-    <sequenceFlow xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-f6087233-2ab9-4930-9ce2-34b3d9dd5292" sourceRef="sid-6668d2fb-9bc2-4e1a-9962-a9d83a47ed7b" targetRef="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CasUtilisationPOC">
@@ -189,23 +182,6 @@
           <dc:Bounds x="1345" y="215" width="90" height="20"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="shape-171734dc-0b25-4d11-b4e4-153814d14bbe" bpmnElement="sid-6668d2fb-9bc2-4e1a-9962-a9d83a47ed7b">
-        <omgdc:Bounds xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" x="325.4004" y="203.51852" width="30.0" height="30.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="shape-b9b12ebe-ea2d-4694-91af-c3b470fa9a10" bpmnElement="sid-1e8c6563-1ee9-47f5-9e06-f4645d60b2c7">
-        <omgdc:Bounds xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" x="289.99997" y="305.0" width="100.0" height="80.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="shape-9b88b21c-2ec5-4859-a21a-bfce5947e16e" bpmnElement="sid-bb954dc2-69e2-4c14-9666-bb03d05149d2">
-        <omgdc:Bounds xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" x="325.0" y="495.0" width="30.0" height="30.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="edge-6625e20a-40f8-4021-97d6-f3326f972b76" bpmnElement="sid-7342cdc8-e252-470e-9667-0ee125905660">
-        <omgdi:waypoint xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" x="339.99997" y="385.0"/>
-        <omgdi:waypoint xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" x="340.0" y="495.0"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="edge-77907677-97de-45dc-b5cd-e92da36439e1" bpmnElement="sid-f6087233-2ab9-4930-9ce2-34b3d9dd5292">
-        <omgdi:waypoint xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" x="340.4004" y="233.51852"/>
-        <omgdi:waypoint xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" x="340.0" y="305.0"/>
-      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
