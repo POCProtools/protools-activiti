@@ -27,6 +27,8 @@ public class DemoApplicationConfiguration {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
 
         String[][] usersGroupsAndRoles = {
+                {"mailine", "password", "ROLE_ACTIVITI_USER", "GROUP_userTeam"},
+                {"other", "password", "ROLE_ACTIVITI_USER", "GROUP_otherTeam"},
                 {"system", "password", "ROLE_ACTIVITI_USER"},
                 {"admin", "password", "ROLE_ACTIVITI_ADMIN"},
         };

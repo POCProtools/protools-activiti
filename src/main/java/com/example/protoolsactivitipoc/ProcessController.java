@@ -75,7 +75,7 @@ public class ProcessController {
         logger.info(taskInstances.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
-                taskService.addCandidateGroup(t.getId(), "ROLE_ACTIVITI_USER");
+                taskService.addCandidateGroup(t.getId(), "GROUP_userTeam");
                 logger.info("> Claiming task: " + t.getId());
                 taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(t.getId()).build());
             }
