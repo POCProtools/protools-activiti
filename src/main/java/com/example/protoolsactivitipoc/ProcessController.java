@@ -67,11 +67,11 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ processKey);
     }
 
-    @GetMapping("/get-tasks/{processID}")
-    public void getTasks(@PathVariable String processID) {
+    @GetMapping("/get-tasks/{processKey}")
+    public void getTasks(@PathVariable String processKey) {
         securityUtil.logInAs("system");
         logger.info(">>> Get tasks <<<");
-        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processID).active().list();
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info(taskInstances.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
