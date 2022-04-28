@@ -1,4 +1,4 @@
-# Protools POC using Activiti
+# Protools POC avec Activiti - Core
 ![](https://github.com/Stage2022/protools-activiti/blob/main/images/bpmn.png?raw=true)
 ### Installation
 [Lien vers le deployment](https://protools-activiti.dev.insee.io/)

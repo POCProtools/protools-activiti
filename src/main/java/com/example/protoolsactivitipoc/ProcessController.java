@@ -52,6 +52,18 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ "categorizeProcess");
     }
 
+    @GetMapping(value = "/login/{username}")
+    public String login(@PathVariable String username){
+        logger.info("> Attempt to login user: "+ username);
+        try{
+            securityUtil.logInAs(username);
+            return("\t > Login sucess! ");
+        } catch (Exception e){
+            logger.info("Exception during login attempt : " + e.getMessage());
+            return("\t > Login failed");
+        }
+    }
+
     @GetMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
         logger.info("> GET request to start the process: "+ processKey);
@@ -69,7 +81,6 @@ public class ProcessController {
 
     @GetMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
-        securityUtil.logInAs("mailine");
         logger.info(">>> Get tasks <<<");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info(taskInstances.toString());
@@ -87,7 +98,6 @@ public class ProcessController {
 
     @GetMapping("/complete-task/{processKey}")
     public void completeTaskA(@PathVariable String processKey, @RequestBody HashMap<String,Object> variables) {
-        securityUtil.logInAs("mailine");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info("> Completing task from process : " + processKey);
         logger.info("\t > Variables : " + variables.toString());
