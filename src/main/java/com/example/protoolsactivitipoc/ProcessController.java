@@ -90,6 +90,7 @@ public class ProcessController {
         securityUtil.logInAs("mailine");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info("> Completing task from process : " + processKey);
+        logger.info("\t > Variables : " + variables.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
                 taskService.addCandidateGroup(t.getId(), "userTeam");
