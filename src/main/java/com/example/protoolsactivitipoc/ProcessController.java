@@ -82,6 +82,7 @@ public class ProcessController {
     @GetMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
         logger.info(">>> Get tasks <<<");
+        securityUtil.logInAs("mailine");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info(taskInstances.toString());
         if (taskInstances.size() > 0) {
@@ -98,6 +99,7 @@ public class ProcessController {
 
     @GetMapping("/complete-task/{processKey}")
     public void completeTaskA(@PathVariable String processKey, @RequestBody HashMap<String,Object> variables) {
+        securityUtil.logInAs("mailine");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info("> Completing task from process : " + processKey);
         logger.info("\t > Variables : " + variables.toString());
