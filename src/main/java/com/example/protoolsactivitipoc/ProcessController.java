@@ -69,7 +69,7 @@ public class ProcessController {
 
     @GetMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
-        securityUtil.logInAs("system");
+        securityUtil.logInAs("mailine");
         logger.info(">>> Get tasks <<<");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
         logger.info(taskInstances.toString());
