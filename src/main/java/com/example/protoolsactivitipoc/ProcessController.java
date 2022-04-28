@@ -102,28 +102,4 @@ public class ProcessController {
         }
     }
 
-    @GetMapping(value = "/startProcess/createSurvey/{processKey}", consumes = "application/json")
-    public String createSurveyPost(@PathVariable String processKey, @RequestBody Survey newSurvey) {
-        securityUtil.logInAs("system");
-        logger.info("\t >>> StartProcess createSurvey <<<");
-        var values = new HashMap<String, Object>() ;
-        try {
-            logger.info(">> Survey: " + newSurvey.toString());
-            values.put("name", newSurvey.getName());
-            values.put("dateDeb", newSurvey.getDateDeb());
-            values.put("dateEnd", newSurvey.getDateEnd());
-            values.put("sampleSize", newSurvey.getSampleSize());
-
-            logger.info("\t \t >>> Finished saving survey info into values");
-        } catch (Error e) {
-            logger.info("Error : " + e.getMessage());
-        }
-        runtimeService.startProcessInstanceByKey(processKey, values);
-        List<ProcessInstance> liste = runtimeService.createProcessInstanceQuery()
-                .processDefinitionKey(processKey)
-                .list();
-
-        return (">>> Created Process Instance: " + processKey + " -- info: " + liste.toString());
-    }
-
 }
