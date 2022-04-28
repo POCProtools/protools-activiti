@@ -85,11 +85,20 @@ public class ProcessController {
 
     }
 
-    @GetMapping("/complete-task/{taskID}")
-    public void completeTaskA(@PathVariable String taskID, @RequestBody HashMap<String,Object> variables) {
-        securityUtil.logInAs("system");
-        logger.info("> Completing task: " + taskID);
-        taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).withVariables(variables).build());
+    @GetMapping("/complete-task/{processKey}")
+    public void completeTaskA(@PathVariable String processKey, @RequestBody HashMap<String,Object> variables) {
+        securityUtil.logInAs("mailine");
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
+        logger.info("> Completing task from process : " + processKey);
+        if (taskInstances.size() > 0) {
+            for (Task t : taskInstances) {
+                taskService.addCandidateGroup(t.getId(), "userTeam");
+                logger.info("> Claiming task: " + t.getId());
+                taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(t.getId()).withVariables(variables).build());;
+            }
+        } else {
+            logger.info("\t \t >> There are no task for me to complete");
+        }
     }
 
     @GetMapping(value = "/startProcess/createSurvey/{processKey}", consumes = "application/json")
