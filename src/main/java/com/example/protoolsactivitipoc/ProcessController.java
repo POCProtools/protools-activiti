@@ -64,7 +64,7 @@ public class ProcessController {
 
     @PostMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
-        logger.info("> GET request to start the process: "+ processKey);
+        logger.info("> POST request to start the process: "+ processKey);
 
         runtimeService.startProcessInstanceByKey(processKey);
         List<ProcessInstance> liste = runtimeService.createProcessInstanceQuery()
@@ -79,10 +79,9 @@ public class ProcessController {
 
     @PostMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
-        logger.info(">>> Get tasks <<<");
+        logger.info(">>> Claim assigned tasks <<<");
         securityUtil.logInAs("mailine");
         List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
-        logger.info(taskInstances.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
                 taskService.addCandidateGroup(t.getId(), "userTeam");
