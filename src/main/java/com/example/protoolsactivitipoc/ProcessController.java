@@ -3,6 +3,7 @@ package com.example.protoolsactivitipoc;
 import com.example.protoolsactivitipoc.beans.Survey;
 import com.example.protoolsactivitipoc.util.SecurityUtil;
 import com.example.protoolsactivitipoc.util.Utils;
+import io.swagger.v3.oas.annotations.Operation;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.RuntimeService;
@@ -35,6 +36,7 @@ public class ProcessController {
     @Autowired
     private SecurityUtil securityUtil;
 
+    @Operation(summary = "Start process from Activiti Demo")
     @PostMapping(value = "/start-categorize-process/")
     public String startProcess(){
         logger.info("> GET request to start the process: categorizeProcess");
@@ -52,6 +54,7 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ "categorizeProcess");
     }
 
+    @Operation(summary = "User logging using username")
     @PostMapping (value = "/login/{username}")
     public void login(@PathVariable String username){
         logger.info("> Attempt to login user: "+ username);
@@ -62,6 +65,7 @@ public class ProcessController {
         }
     }
 
+    @Operation(summary = "Start process using processKey")
     @PostMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
         logger.info("> POST request to start the process: "+ processKey);
@@ -77,6 +81,7 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ processKey);
     }
 
+    @Operation(summary = "Claim all task by processKey")
     @PostMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
         logger.info(">>> Claim assigned tasks <<<");
@@ -94,6 +99,8 @@ public class ProcessController {
 
     }
 
+
+    @Operation(summary = "Complete claimed task by processKey, add variables to process")
     @GetMapping("/complete-task/{processKey}")
     public void completeTaskA(@PathVariable String processKey, @RequestBody HashMap<String,Object> variables) {
         securityUtil.logInAs("mailine");
