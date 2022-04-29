@@ -35,7 +35,7 @@ public class ProcessController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @GetMapping(value = "/start-categorize-process/")
+    @PostMapping(value = "/start-categorize-process/")
     public String startProcess(){
         logger.info("> GET request to start the process: categorizeProcess");
         String content = Utils.pickRandomString();
@@ -52,19 +52,17 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ "categorizeProcess");
     }
 
-    @GetMapping(value = "/login/{username}")
-    public String login(@PathVariable String username){
+    @PostMapping (value = "/login/{username}")
+    public void login(@PathVariable String username){
         logger.info("> Attempt to login user: "+ username);
         try{
             securityUtil.logInAs(username);
-            return("\t > Login sucess! ");
         } catch (Exception e){
             logger.info("Exception during login attempt : " + e.getMessage());
-            return("\t > Login failed");
         }
     }
 
-    @GetMapping(value = "/start-process/{processKey}" )
+    @PostMapping(value = "/start-process/{processKey}" )
     public String startProcess(@PathVariable String processKey){
         logger.info("> GET request to start the process: "+ processKey);
 
@@ -79,7 +77,7 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ processKey);
     }
 
-    @GetMapping("/get-tasks/{processKey}")
+    @PostMapping("/get-tasks/{processKey}")
     public void getTasks(@PathVariable String processKey) {
         logger.info(">>> Get tasks <<<");
         securityUtil.logInAs("mailine");
