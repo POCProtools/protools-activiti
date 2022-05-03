@@ -65,16 +65,15 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${count != sampleSize}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_13828zo" sourceRef="Activity_12yxcqh" targetRef="Event_1pfixvm" />
-    <serviceTask xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    <bpmn:serviceTask xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
                  xmlns:activiti="http://activiti.org/bpmn" id="saveSurveyInfo" name="saveSurveyInfo"
-                 implementation="saveSurvey" activiti:exclusive="true" activiti:async="true"
-                 activiti:class="org.activiti.engine.test.jobexecutor.RetryFailingDelegate">
-      <extensionElements>
-        <activiti:failedJobRetryTimeCycle>R3/PT1M</activiti:failedJobRetryTimeCycle>
-      </extensionElements>
+                 implementation="saveSurvey" activiti:exclusive="true" activiti:async="true">
+      <bpmn:extensionElements>
+        <activiti:failedJobRetryTimeCycle>R5/PT1M</activiti:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
       <incoming>Flow_030lv4j</incoming>
       <outgoing>Flow_0j9p0t5</outgoing>
-    </serviceTask>
+    </bpmn:serviceTask>
     <startEvent xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="sid-e2f05670-4e97-417b-ba5c-7d5415e93877" name="Begin">
       <outgoing>Flow_0mp29qt</outgoing>
     </startEvent>
