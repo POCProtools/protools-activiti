@@ -86,7 +86,7 @@ public class ProcessController {
     public void getTasks(@PathVariable String processKey) {
         logger.info(">>> Claim assigned tasks <<<");
         securityUtil.logInAs("mailine");
-        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processKey).active().list();
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
                 taskService.addCandidateGroup(t.getId(), "userTeam");
