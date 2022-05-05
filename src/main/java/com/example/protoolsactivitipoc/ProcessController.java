@@ -81,12 +81,12 @@ public class ProcessController {
         return(">>> Created Process Instance: "+ processKey);
     }
 
-    @Operation(summary = "Claim all task by processKey")
-    @PostMapping("/get-tasks/{processKey}")
-    public void getTasks(@PathVariable String processKey) {
+    @Operation(summary = "Claim all task by processID")
+    @PostMapping("/get-tasks/{processID}")
+    public void getTasks(@PathVariable String processID) {
         logger.info(">>> Claim assigned tasks <<<");
         securityUtil.logInAs("mailine");
-        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processKey).active().list();
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processID).active().list();
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
                 taskService.addCandidateGroup(t.getId(), "userTeam");
@@ -101,11 +101,11 @@ public class ProcessController {
 
 
     @Operation(summary = "Complete claimed task by processKey, add variables to process")
-    @GetMapping("/complete-task/{processKey}")
-    public void completeTaskA(@PathVariable String processKey, @RequestBody HashMap<String,Object> variables) {
+    @GetMapping("/complete-task/{processID}")
+    public void completeTaskA(@PathVariable String processID, @RequestBody HashMap<String,Object> variables) {
         securityUtil.logInAs("mailine");
-        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processDefinitionKey(processKey).active().list();
-        logger.info("> Completing task from process : " + processKey);
+        List<org.activiti.engine.task.Task> taskInstances = taskService.createTaskQuery().processInstanceId(processID).active().list();
+        logger.info("> Completing task from process : " + processID);
         logger.info("\t > Variables : " + variables.toString());
         if (taskInstances.size() > 0) {
             for (Task t : taskInstances) {
